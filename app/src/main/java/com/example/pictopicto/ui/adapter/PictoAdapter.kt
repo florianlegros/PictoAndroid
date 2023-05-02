@@ -37,7 +37,7 @@ class PictoAdapter(
             //donne les image en fonction d'un string
             holder.imageView.setImageResource(
                 context.resources.getIdentifier(
-                    item.pictoImgfile,
+                    item.pictoImgfile.replace(".png","").lowercase(),
                     "drawable",
                     context.packageName
                 )

@@ -31,7 +31,7 @@ class CategorieAdapter(
             //donne les image en fonction d'un string
             holder.imageView.setImageResource(
                 context.resources.getIdentifier(
-                    item.categorieImgfile,
+                    item.categorieImgfile.replace(".png","").lowercase(),
                     "drawable",
                     context.packageName
                 )

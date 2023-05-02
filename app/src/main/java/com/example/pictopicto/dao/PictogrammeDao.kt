@@ -12,7 +12,7 @@ interface PictogrammeDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(pictogrammes: List<Pictogramme>)
 
-    @Query("SELECT * FROM pictogramme ORDER BY pictoNom ASC")
+    @Query("SELECT * FROM pictogramme")
     fun getAll(): LiveData<List<Pictogramme>>
 
     @Query("SELECT * FROM pictogramme WHERE pictoId=:id")

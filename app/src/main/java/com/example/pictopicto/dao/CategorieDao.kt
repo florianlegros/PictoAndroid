@@ -12,7 +12,7 @@ interface CategorieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(categories: List<Categorie>)
 
-    @Query("SELECT * FROM Categorie ORDER BY categorieNom ASC")
+    @Query("SELECT * FROM Categorie")
     fun getAll(): LiveData<List<Categorie>>
 
     @Query("SELECT * FROM Categorie WHERE categorieId=:id")
