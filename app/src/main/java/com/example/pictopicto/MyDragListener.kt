@@ -3,6 +3,8 @@ package com.example.pictopicto
 import android.view.DragEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pictopicto.model.Pictogramme
+import com.example.pictopicto.ui.adapter.PictoAdapter
 
 //gere les evenments d'un drag and drop
 class MyDragListener : View.OnDragListener {
@@ -19,24 +21,27 @@ class MyDragListener : View.OnDragListener {
                 //recuperes l'endroit du drop (ici c'est un recycler)
                 val container = v as RecyclerView
                 //recuperes les données de l'objet (ici c'est juste un string "nom de l'image")
-                val item = e.clipData.getItemAt(0).intent.getStringExtra("item")
+                val item = e.clipData.getItemAt(0).intent.getSerializableExtra("item")
 
                 //verifies si on a bien recup le nom de l'image
-                if ((item.isNullOrBlank().not())) {
+                if (item != null) {
                     //recup l'adapter du recyler et on ajoute l'image
-                    val adapter: MyItemRecyclerViewAdapter =
-                        container.adapter as MyItemRecyclerViewAdapter
-                    adapter.addItem(item.toString())
+                    val adapter: PictoAdapter =
+                        container.adapter as PictoAdapter
+                    adapter.addItem(item as Pictogramme)
 
                     //verif si ya deja une image en dessous
-                        val intercept =
-                            container.findChildViewUnder(e.x, e.y)
+                    val intercept =
+                        container.findChildViewUnder(e.x, e.y)
                     println(intercept)
                     //si oui on echange les places
                     if (intercept != null && container.getChildAdapterPosition(intercept) != -1) {
                         println(container.getChildAdapterPosition(intercept))
 
-                        adapter.onRowMoved((adapter.itemCount - 1), container.getChildAdapterPosition(intercept))
+                        adapter.onRowMoved(
+                            (adapter.itemCount - 1),
+                            container.getChildAdapterPosition(intercept)
+                        )
                     }
 
                 }

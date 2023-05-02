@@ -1,9 +1,10 @@
-package com.example.pictopicto
+package com.example.pictopicto.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pictopicto.SessionManager
 import com.example.pictopicto.api.ApiClient
 import com.example.pictopicto.databinding.ActivityLoginBinding
 import com.example.pictopicto.payload.request.LoginRequest
@@ -37,7 +38,12 @@ class LoginActivity : AppCompatActivity() {
 
         login.setOnClickListener {
             loading.visibility = View.VISIBLE
-            apiClient.getApiService().login(LoginRequest(username = username.text.toString(), password = password.text.toString()))
+            apiClient.getApiService(this).login(
+                LoginRequest(
+                    username = username.text.toString(),
+                    password = password.text.toString()
+                )
+            )
                 .enqueue(object : Callback<LoginResponse> {
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                         // Error logging in
@@ -45,7 +51,10 @@ class LoginActivity : AppCompatActivity() {
                         println(t.printStackTrace())
                     }
 
-                    override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                    override fun onResponse(
+                        call: Call<LoginResponse>,
+                        response: Response<LoginResponse>
+                    ) {
                         println("reponse")
 
                         if (response.code() == 200) {
@@ -61,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 })
         }
+
 
     }
 

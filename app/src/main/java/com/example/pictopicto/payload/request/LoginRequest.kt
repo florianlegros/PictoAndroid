@@ -3,7 +3,7 @@ package com.example.pictopicto.payload.request
 import com.google.gson.annotations.SerializedName
 
 
-class LoginRequest (
+class LoginRequest(
     @SerializedName("username")
     var username: String,
 

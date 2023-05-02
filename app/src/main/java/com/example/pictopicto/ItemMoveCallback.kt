@@ -2,6 +2,7 @@ package com.example.pictopicto
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pictopicto.ui.adapter.PictoAdapter
 
 
 class ItemMoveCallback(private val adapter: ItemTouchHelperContract) :
@@ -38,8 +39,8 @@ class ItemMoveCallback(private val adapter: ItemTouchHelperContract) :
     ) {
 
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-            if (viewHolder is MyItemRecyclerViewAdapter.ViewHolder) {
-                val myViewHolder: MyItemRecyclerViewAdapter.ViewHolder =
+            if (viewHolder is PictoAdapter.ViewHolder) {
+                val myViewHolder: PictoAdapter.ViewHolder =
                     viewHolder
                 adapter.onRowSelected(myViewHolder)
             }
@@ -52,8 +53,8 @@ class ItemMoveCallback(private val adapter: ItemTouchHelperContract) :
         viewHolder: RecyclerView.ViewHolder
     ) {
         super.clearView(recyclerView, viewHolder)
-        if (viewHolder is MyItemRecyclerViewAdapter.ViewHolder) {
-            val myViewHolder: MyItemRecyclerViewAdapter.ViewHolder =
+        if (viewHolder is PictoAdapter.ViewHolder) {
+            val myViewHolder: PictoAdapter.ViewHolder =
                 viewHolder
             adapter.onRowClear(myViewHolder)
         }
@@ -61,7 +62,7 @@ class ItemMoveCallback(private val adapter: ItemTouchHelperContract) :
 
     interface ItemTouchHelperContract {
         fun onRowMoved(fromPosition: Int, toPosition: Int)
-        fun onRowSelected(myViewHolder: MyItemRecyclerViewAdapter.ViewHolder?)
-        fun onRowClear(myViewHolder: MyItemRecyclerViewAdapter.ViewHolder?)
+        fun onRowSelected(myViewHolder: PictoAdapter.ViewHolder?)
+        fun onRowClear(myViewHolder: PictoAdapter.ViewHolder?)
     }
 }

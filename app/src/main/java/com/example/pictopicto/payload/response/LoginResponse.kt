@@ -4,7 +4,7 @@ import com.example.pictopicto.model.User
 import com.google.gson.annotations.SerializedName
 
 
-class LoginResponse (
+class LoginResponse(
     @SerializedName("status_code")
     var statusCode: Int,
 

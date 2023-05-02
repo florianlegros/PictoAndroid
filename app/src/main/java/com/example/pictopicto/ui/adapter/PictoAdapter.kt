@@ -1,4 +1,4 @@
-package com.example.pictopicto
+package com.example.pictopicto.ui.adapter
 
 import android.content.ClipData
 import android.content.Intent
@@ -7,13 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pictopicto.ItemMoveCallback
 import com.example.pictopicto.databinding.FragmentItemBinding
+import com.example.pictopicto.model.Pictogramme
 import java.util.*
 
 
-class MyItemRecyclerViewAdapter(
-    private val values: ArrayList<String>
-) : RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>(),
+class PictoAdapter(
+    private val values: ArrayList<Pictogramme>
+) : RecyclerView.Adapter<PictoAdapter.ViewHolder>(),
     ItemMoveCallback.ItemTouchHelperContract {
     var clicklistener = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,11 +32,12 @@ class MyItemRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
+
         with(holder.itemView) {
             //donne les image en fonction d'un string
             holder.imageView.setImageResource(
                 context.resources.getIdentifier(
-                    item,
+                    item.pictoImgfile,
                     "drawable",
                     context.packageName
                 )
@@ -66,15 +69,16 @@ class MyItemRecyclerViewAdapter(
         }
     }
 
-    override fun getItemCount(): Int = values.size
+    override fun getItemCount(): Int {
+
+        return values.size
+    }
 
     inner class ViewHolder(binding: FragmentItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val imageView: ImageView = binding.imageView
 
-        override fun toString(): String {
-            return super.toString()
-        }
     }
+
     //fonction pour echanger la place de deux images
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
@@ -94,11 +98,13 @@ class MyItemRecyclerViewAdapter(
 
     override fun onRowClear(myViewHolder: ViewHolder?) {
     }
+
     //ajouter une image
-    fun addItem(item: String) {
+    fun addItem(item: Pictogramme) {
         values.add(item)
         notifyItemInserted(itemCount - 1)
     }
+
     //enlever une image
     fun rmItem(position: Int) {
         values.removeAt(position)
