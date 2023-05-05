@@ -1,4 +1,4 @@
-package com.example.pictopicto
+package com.example.pictopicto.ui.listener
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView

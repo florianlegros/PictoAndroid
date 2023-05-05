@@ -1,8 +1,6 @@
 package com.example.pictopicto.model
 
-import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.Relation
 import androidx.room.TypeConverters
 import com.example.pictopicto.DataConverter
 import com.google.gson.annotations.SerializedName
@@ -21,5 +19,5 @@ data class Categorie(
 
     @TypeConverters(DataConverter::class)
     @SerializedName("pictogrammes")
-    var pictogrammes: List<Pictogramme>
+    var pictogrammes: List<Pictogramme> = ArrayList()
 ) : Serializable

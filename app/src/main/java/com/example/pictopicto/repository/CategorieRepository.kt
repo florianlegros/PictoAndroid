@@ -22,9 +22,11 @@ class CategorieRepository private constructor(context: Context) {
     suspend fun addAll(Categories: List<Categorie>) {
         bdd.categorieDao()?.insertAll(Categories)
     }
+
     fun getAll(): LiveData<List<Categorie>>? {
-       return bdd.categorieDao()?.getAll()
+        return bdd.categorieDao()?.getAll()
     }
+
     suspend fun getCategorieById(CategorieId: Long): Categorie? {
         return bdd.categorieDao()?.getCategorieById(CategorieId)
     }

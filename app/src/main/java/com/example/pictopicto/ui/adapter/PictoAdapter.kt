@@ -2,19 +2,21 @@ package com.example.pictopicto.ui.adapter
 
 import android.content.ClipData
 import android.content.Intent
+import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pictopicto.ItemMoveCallback
+import com.example.pictopicto.ui.listener.ItemMoveCallback
 import com.example.pictopicto.databinding.FragmentItemBinding
 import com.example.pictopicto.model.Pictogramme
 import java.util.*
 
 
 class PictoAdapter(
-    private val values: ArrayList<Pictogramme>
+    private val values: ArrayList<Pictogramme>, val mTts: TextToSpeech
+
 ) : RecyclerView.Adapter<PictoAdapter.ViewHolder>(),
     ItemMoveCallback.ItemTouchHelperContract {
     var clicklistener = false
@@ -37,7 +39,7 @@ class PictoAdapter(
             //donne les image en fonction d'un string
             holder.imageView.setImageResource(
                 context.resources.getIdentifier(
-                    item.pictoImgfile.replace(".png","").lowercase(),
+                    item.pictoImgfile.replace(".png", "").lowercase(),
                     "drawable",
                     context.packageName
                 )
@@ -61,6 +63,7 @@ class PictoAdapter(
                         it,
                         0
                     )
+                    mTts.speak(item.pictoNom + ", , ", TextToSpeech.QUEUE_FLUSH, null)
                     //on rend l'image invisible
                     it.visibility = View.INVISIBLE
                     true
@@ -72,6 +75,16 @@ class PictoAdapter(
     override fun getItemCount(): Int {
 
         return values.size
+    }
+
+    fun getItems(): ArrayList<Pictogramme> {
+        return values
+    }
+
+    fun clear() {
+        val size: Int = values.size
+        values.clear()
+        notifyItemRangeRemoved(0, size)
     }
 
     inner class ViewHolder(binding: FragmentItemBinding) : RecyclerView.ViewHolder(binding.root) {

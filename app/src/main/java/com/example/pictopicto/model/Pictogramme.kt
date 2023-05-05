@@ -17,4 +17,4 @@ data class Pictogramme(
 
     @SerializedName("categorieId")
     var ecategorieId: Long
-    ) : Serializable
+) : Serializable

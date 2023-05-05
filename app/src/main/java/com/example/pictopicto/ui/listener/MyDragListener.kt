@@ -1,4 +1,4 @@
-package com.example.pictopicto
+package com.example.pictopicto.ui.listener
 
 import android.view.DragEvent
 import android.view.View
@@ -33,10 +33,8 @@ class MyDragListener : View.OnDragListener {
                     //verif si ya deja une image en dessous
                     val intercept =
                         container.findChildViewUnder(e.x, e.y)
-                    println(intercept)
                     //si oui on echange les places
                     if (intercept != null && container.getChildAdapterPosition(intercept) != -1) {
-                        println(container.getChildAdapterPosition(intercept))
 
                         adapter.onRowMoved(
                             (adapter.itemCount - 1),

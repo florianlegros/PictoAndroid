@@ -22,6 +22,7 @@ class PictogrammeRepository private constructor(context: Context) {
     suspend fun addAll(pictogrammes: List<Pictogramme>) {
         bdd.pictogrammeDao()?.insertAll(pictogrammes)
     }
+
     fun getAll() {
         bdd.pictogrammeDao()?.getAll()
     }

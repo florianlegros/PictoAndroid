@@ -55,17 +55,9 @@ class LoginActivity : AppCompatActivity() {
                         call: Call<LoginResponse>,
                         response: Response<LoginResponse>
                     ) {
-                        println("reponse")
-
                         if (response.code() == 200) {
                             sessionManager.saveAuthToken(response.headers()["Set-Cookie"].toString())
-                            println(response.headers())
-                            println(response.headers()["Set-Cookie"])
                             startActivity(mainActivity)
-                        } else {
-                            // Error logging in
-
-                            println(response.raw())
                         }
                     }
                 })
