@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@android:id/background"
+        android:gravity="center_vertical|fill_horizontal">
+        <shape android:shape="rectangle">
+
+            <corners android:radius="2dp" />
+            <size android:height="6dp" />
+
+            <gradient
+                android:angle="90"
+                android:centerColor="#b1c8e2"
+                android:endColor="#8598af"
+                android:startColor="#8aa4bc" />
+        </shape>
+    </item>
+
+</layer-list>

@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
-import java.util.function.Predicate
 
 class PhraseRepository private constructor(context: Context) {
     var phrases: LiveData<List<Phrase>>
@@ -59,7 +58,7 @@ class PhraseRepository private constructor(context: Context) {
                         val temp = response.body()
                         phrases =
                             if (temp?.data != null) temp.data as ArrayList<Phrase> else ArrayList()
-                        phrases.removeIf { it.pictogrammes?.isEmpty() ?: true }
+                        phrases.removeIf { it.pictogrammes.isEmpty() }
                         if (phrases.size > 0) {
                             addAll(phrases)
                         }

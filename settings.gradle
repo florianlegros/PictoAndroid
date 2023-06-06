@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "PictoPicto"
-include ':app'
+include ':app', ':audioanalyzer'

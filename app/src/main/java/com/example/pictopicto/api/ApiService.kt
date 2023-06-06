@@ -18,13 +18,16 @@ interface ApiService {
     fun login(@Body request: LoginRequest): Call<LoginResponse>
 
     @POST("phrases")
-    fun addPhrase(@Body request: EmbeddedRequest<Phrase>):Call<EmbeddedResponse<Phrase>>
+    fun addPhrase(@Body request: EmbeddedRequest<Phrase>): Call<EmbeddedResponse<Phrase>>
 
-    @GET("pictogrammes")
-    fun getPictogrammes(): Call<EmbeddedResponse<Pictogramme>>
+    @GET("pictogrammes/all")
+    fun getPictogrammes(): Call<List<Pictogramme>>
 
-    @GET("categories")
-    fun getCategories(): Call<EmbeddedResponse<Categorie>>
+    @GET("categories/{id}/pictogrammes")
+    fun getPictogrammesByCategory(@Path("id") id: Long): Call<EmbeddedResponse<Pictogramme>>
+
+    @GET("categories/all")
+    fun getCategories(): Call<List<Categorie>>
 
     @GET("questions")
     fun getQuestions(): Call<EmbeddedResponse<Question>>

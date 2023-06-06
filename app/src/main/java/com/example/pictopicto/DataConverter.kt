@@ -12,21 +12,21 @@ class DataConverter {
     fun fromPictogrammeLangList(value: List<Pictogramme>?): String {
         val gson = Gson()
         val type = object : TypeToken<List<Pictogramme>>() {}.type
-        return gson.toJson(value, type)?: ""
+        return gson.toJson(value, type) ?: ""
     }
 
     @TypeConverter
     fun toPictogrammeLangList(value: String): List<Pictogramme> {
         val gson = Gson()
         val type = object : TypeToken<List<Pictogramme>>() {}.type
-        return gson.fromJson(value, type)?: ArrayList()
+        return gson.fromJson(value, type) ?: ArrayList()
     }
 
     @TypeConverter
     fun fromCategorieLangList(value: List<Categorie>?): String {
         val gson = Gson()
         val type = object : TypeToken<List<Categorie>>() {}.type
-        return gson.toJson(value, type)?: ""
+        return gson.toJson(value, type) ?: ""
     }
 
     @TypeConverter

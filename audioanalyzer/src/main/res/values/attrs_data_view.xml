@@ -1,0 +1,8 @@
+<resources>
+    <declare-styleable name="DataView">
+        <attr name="Color" format="color" />
+        <attr name="FillColor" format="color" />
+        <attr name="Marker" format="color" />
+        <attr name="AxisColor" format="color" />
+    </declare-styleable>
+</resources>

@@ -16,5 +16,5 @@ data class Pictogramme(
     var pictoImgfile: String,
 
     @SerializedName("categorieId")
-    var ecategorieId: Long
+    var categorieId: Long
 ) : Serializable

@@ -8,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pictopicto.ui.listener.ItemMoveCallback
 import com.example.pictopicto.databinding.FragmentItemBinding
 import com.example.pictopicto.model.Pictogramme
+import com.example.pictopicto.ui.listener.ItemMoveCallback
 import java.util.*
 
 

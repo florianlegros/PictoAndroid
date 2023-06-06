@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#93c2ff</color>
+
+    <color name="icon_fore">#094b96</color>
+    <color name="icon_bkg">#063870</color>
+
+    <color name="default_waveform">#178b51</color>
+    <color name="default_waveformFill">#80FFC0</color>
+    <color name="default_playback_indicator">#ffff66</color>
+    <color name="default_timecode">#ddffffdd</color>
+    <color name="default_background">#000000</color>
+
+    <color name="spectrum_view_background_color">#22548c</color>
+    <color name="spectrum_stroke_color">#ff0062</color>
+    <color name="spectrum_fill_color">#ffffa7</color>
+    <color name="spectrum_axis_color">#094b96</color>
+    <color name="spectrum_legend_color">#FFFEFFC9</color>
+
+    <color name="spinner_color">#285e9b</color>
+    <color name="spinner_list_bkg_color">#644e7faf</color>
+
+    <color name="view_pager_tabs">#ff0095</color>
+
+    <color name="chart_activity_buttons">#96cbd8e4</color>
+
+</resources>

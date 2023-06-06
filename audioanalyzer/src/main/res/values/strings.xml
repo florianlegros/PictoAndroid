@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">audioanalyzer</string>
+
+    <string name="wait_msg">Veuillez patienter ...</string>
+    <string name="send_title">Envoi ...</string>
+
+    <string name="audio_permission_msg">Autoriser l\'application à utiliser votre microphone ?</string>
+    <string name="storage_permission_msg">Autoriser l\'application à accéder à vos fichiers ?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="TTS">Synthèse Vocale</string>
+    <string name="Teacher">Educateur</string>
+    <string name="Kid">Enfant</string>
+
+    <string name="Record">Enregistrement</string>
+    <string name="Frequency">Fréquence (khz)</string>
+</resources>

@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import com.example.pictopicto.api.ApiClient
 import com.example.pictopicto.dao.AppDatabase
 import com.example.pictopicto.model.Categorie
-import com.example.pictopicto.payload.response.EmbeddedResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,11 +36,11 @@ class CategorieRepository private constructor(context: Context) {
 
     suspend fun updateDatabase(context: Context) {
         val apiClient = ApiClient()
-        var Categories: ArrayList<Categorie>
+        var categories: ArrayList<Categorie> = ArrayList()
         apiClient.getApiService(context).getCategories()
-            .enqueue(object : retrofit2.Callback<EmbeddedResponse<Categorie>> {
+            .enqueue(object : retrofit2.Callback<List<Categorie>> {
                 override fun onFailure(
-                    call: Call<EmbeddedResponse<Categorie>>,
+                    call: Call<List<Categorie>>,
                     t: Throwable
                 ) {
                     // Error fetching
@@ -50,14 +49,14 @@ class CategorieRepository private constructor(context: Context) {
                 }
 
                 override fun onResponse(
-                    call: Call<EmbeddedResponse<Categorie>>,
-                    response: Response<EmbeddedResponse<Categorie>>
+                    call: Call<List<Categorie>>,
+                    response: Response<List<Categorie>>
                 ) {
                     CoroutineScope(Dispatchers.IO).launch {
                         val temp = response.body()
-                        Categories = temp?.data as ArrayList<Categorie>
-                        if (Categories.size > 0) {
-                            addAll(Categories)
+                        temp?.let { categories = it as ArrayList<Categorie> }
+                        if (categories.size > 0) {
+                            addAll(categories)
                         }
                     }
                 }
