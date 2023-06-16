@@ -1,6 +1,9 @@
 package com.example.pictopicto.model
 
 import androidx.room.Entity
+import androidx.room.Relation
+import androidx.room.TypeConverters
+import com.example.pictopicto.DataConverter
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -16,5 +19,16 @@ data class Pictogramme(
     var pictoImgfile: String,
 
     @SerializedName("categorieId")
-    var categorieId: Long
-) : Serializable
+    var categorieId: Long,
+
+    @TypeConverters(DataConverter::class)
+    @SerializedName("tags")
+    var tags: List<Tag>,
+
+    @TypeConverters(DataConverter::class)
+    @SerializedName("irregulier")
+    var irregulier:Irregulier?
+
+
+) : Serializable {
+}

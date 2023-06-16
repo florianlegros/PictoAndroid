@@ -18,7 +18,7 @@ interface PictogrammeDao {
     @Query("SELECT * FROM pictogramme WHERE pictoId=:id")
     suspend fun getPictogrammeById(id: Long): Pictogramme
 
-    @Query("SELECT * FROM pictogramme WHERE categorieId=:id")
+    @Query("SELECT * FROM pictogramme WHERE categorieId=:id ORDER BY pictoId")
     suspend fun getAllPictogrammeByCategorieId(id: Long): List<Pictogramme>
 
     @Query("SELECT COUNT(*) from pictogramme")

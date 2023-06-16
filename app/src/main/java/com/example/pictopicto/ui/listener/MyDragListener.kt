@@ -8,6 +8,8 @@ import com.example.pictopicto.ui.adapter.PictoAdapter
 
 //gere les evenments d'un drag and drop
 class MyDragListener : View.OnDragListener {
+
+
     override fun onDrag(v: View, e: DragEvent): Boolean {
         when (e.action) {
             DragEvent.ACTION_DRAG_STARTED -> {}

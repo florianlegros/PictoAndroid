@@ -1,10 +1,7 @@
 package com.example.pictopicto.api
 
 import com.example.pictopicto.Constants
-import com.example.pictopicto.model.Categorie
-import com.example.pictopicto.model.Phrase
-import com.example.pictopicto.model.Pictogramme
-import com.example.pictopicto.model.Question
+import com.example.pictopicto.model.*
 import com.example.pictopicto.payload.request.EmbeddedRequest
 import com.example.pictopicto.payload.request.LoginRequest
 import com.example.pictopicto.payload.response.EmbeddedResponse
@@ -28,6 +25,15 @@ interface ApiService {
 
     @GET("categories/all")
     fun getCategories(): Call<List<Categorie>>
+
+    @GET("tags")
+    fun getTags(): Call<EmbeddedResponse<com.example.pictopicto.model.Tag>>
+
+    @GET("irreguliers")
+    fun getIrreguliers(): Call<EmbeddedResponse<Irregulier>>
+
+    @GET("conjugaison")
+    fun getConjugaisons(): Call<EmbeddedResponse<Conjugaison>>
 
     @GET("questions")
     fun getQuestions(): Call<EmbeddedResponse<Question>>

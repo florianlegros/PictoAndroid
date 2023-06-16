@@ -8,39 +8,88 @@
 
     <LinearLayout
         android:id="@+id/options"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="64dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/recycler2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recycler3">
+        app:layout_constraintStart_toEndOf="@+id/recycler3"
+        app:layout_constraintTop_toBottomOf="@+id/phraseText">
 
         <Button
             android:id="@+id/lirePhrase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="lire" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/play_solid"
+            android:backgroundTint="#009688" />
 
         <Button
             android:id="@+id/motAmot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="motAmot" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/forward_step_solid"
+            android:backgroundTint="#3F51B5" />
+
+        <Button
+            android:id="@+id/tempsFutur"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+
+            android:background="@drawable/forward_solid"
+            android:backgroundTint="#4CAF50" />
+
+        <Button
+            android:id="@+id/tempsPasse"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+
+            android:background="@drawable/backward_solid"
+            android:backgroundTint="#9C27B0" />
+
+        <Button
+            android:id="@+id/phraseNormal"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+
+            android:background="@drawable/thumbs_up_solid"
+            android:backgroundTint="#8BC34A" />
+
+        <Button
+            android:id="@+id/phraseNegatif"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+
+            android:background="@drawable/thumbs_down_solid"
+            android:backgroundTint="#E91E63" />
+
+        <Button
+            android:id="@+id/delLast"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/delete_left_solid"
+            android:backgroundTint="#FF0000" />
 
         <Button
             android:id="@+id/viderPhrase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="vider" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/trash_solid"
+            android:backgroundTint="#FF0000" />
 
         <Button
             android:id="@+id/sauverPhrase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="sauver" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/floppy_disk_solid"
+            android:backgroundTint="#FFC107" />
 
     </LinearLayout>
 
@@ -49,13 +98,13 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:background="#A8A8A8"
         android:clipToPadding="false"
         android:orientation="horizontal"
         android:paddingEnd="150dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/options"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/recycler3"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
@@ -103,5 +152,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/spinner"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/phraseText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/recycler"
+        app:layout_constraintStart_toStartOf="@+id/recycler"
+        app:layout_constraintTop_toBottomOf="@+id/recycler" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,13 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.pictopicto.DataConverter
-import com.example.pictopicto.model.Categorie
-import com.example.pictopicto.model.Phrase
-import com.example.pictopicto.model.Pictogramme
-import com.example.pictopicto.model.Question
+import com.example.pictopicto.model.*
 
 @Database(
-    entities = [Pictogramme::class, Categorie::class, Question::class, Phrase::class],
+    entities = [Pictogramme::class, Categorie::class, Question::class, Phrase::class, Tag::class, Conjugaison::class, Irregulier::class],
     version = 1,
     exportSchema = false
 )
@@ -24,6 +21,9 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun categorieDao(): CategorieDao?
     abstract fun questionDao(): QuestionDao?
     abstract fun phraseDao(): PhraseDao?
+    abstract fun tagDao(): TagDao?
+    abstract fun irregulierDao(): IrregulierDao?
+    abstract fun conjugaisonDao(): ConjugaisonDao?
 
     companion object {
         private var INSTANCE: AppDatabase? = null
