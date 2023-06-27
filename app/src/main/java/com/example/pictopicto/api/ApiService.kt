@@ -17,11 +17,11 @@ interface ApiService {
     @POST("phrases")
     fun addPhrase(@Body request: EmbeddedRequest<Phrase>): Call<EmbeddedResponse<Phrase>>
 
-    @GET("pictogrammes/all")
-    fun getPictogrammes(): Call<List<Pictogramme>>
+    @GET("mots/all")
+    fun getMots(): Call<List<Mot>>
 
-    @GET("categories/{id}/pictogrammes")
-    fun getPictogrammesByCategory(@Path("id") id: Long): Call<EmbeddedResponse<Pictogramme>>
+    @GET("categories/{id}/mots")
+    fun getmotsByCategory(@Path("id") id: Long): Call<EmbeddedResponse<Mot>>
 
     @GET("categories/all")
     fun getCategories(): Call<List<Categorie>>

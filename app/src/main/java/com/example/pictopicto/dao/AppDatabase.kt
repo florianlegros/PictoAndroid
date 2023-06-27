@@ -9,7 +9,7 @@ import com.example.pictopicto.DataConverter
 import com.example.pictopicto.model.*
 
 @Database(
-    entities = [Pictogramme::class, Categorie::class, Question::class, Phrase::class, Tag::class, Conjugaison::class, Irregulier::class],
+    entities = [Mot::class, Categorie::class, Question::class, Phrase::class, Tag::class, Conjugaison::class, Irregulier::class],
     version = 1,
     exportSchema = false
 )
@@ -17,7 +17,7 @@ import com.example.pictopicto.model.*
     DataConverter::class
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun pictogrammeDao(): PictogrammeDao?
+    abstract fun pictogrammeDao(): MotDao?
     abstract fun categorieDao(): CategorieDao?
     abstract fun questionDao(): QuestionDao?
     abstract fun phraseDao(): PhraseDao?

@@ -58,7 +58,7 @@ class PhraseRepository private constructor(context: Context) {
                         val temp = response.body()
                         phrases =
                             if (temp?.data != null) temp.data as ArrayList<Phrase> else ArrayList()
-                        phrases.removeIf { it.pictogrammes.isEmpty() }
+                        phrases.removeIf { it.mots.isEmpty() }
                         if (phrases.size > 0) {
                             addAll(phrases)
                         }
@@ -67,7 +67,7 @@ class PhraseRepository private constructor(context: Context) {
             })
 
         bdd.phraseDao()?.findAll()?.forEach { phrase ->
-            if (phrase.phraseId > 0 && phrase.pictogrammes.isEmpty().not()) {
+            if (phrase.phraseId > 0 && phrase.mots.isEmpty().not()) {
                 apiClient.getApiService(context).addPhrase(EmbeddedRequest(phrase))
                     .enqueue(object : retrofit2.Callback<EmbeddedResponse<Phrase>> {
                         override fun onResponse(

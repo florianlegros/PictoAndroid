@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pictopicto.databinding.FragmentItemBinding
-import com.example.pictopicto.model.Pictogramme
+import com.example.pictopicto.model.Mot
 import com.example.pictopicto.ui.listener.ItemMoveCallback
 import java.util.*
 
 
 class PictoAdapter(
-    private val values: ArrayList<Pictogramme>, val mTts: TextToSpeech
+    private val values: ArrayList<Mot>, val mTts: TextToSpeech
 
 ) : RecyclerView.Adapter<PictoAdapter.ViewHolder>(),
     ItemMoveCallback.ItemTouchHelperContract {
@@ -77,7 +77,7 @@ class PictoAdapter(
         return values.size
     }
 
-    fun getItems(): ArrayList<Pictogramme> {
+    fun getItems(): ArrayList<Mot> {
         return values
     }
 
@@ -113,7 +113,7 @@ class PictoAdapter(
     }
 
     //ajouter une image
-    fun addItem(item: Pictogramme) {
+    fun addItem(item: Mot) {
         values.add(item)
         notifyItemInserted(itemCount - 1)
     }

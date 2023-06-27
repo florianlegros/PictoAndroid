@@ -16,12 +16,12 @@ data class Phrase(
     @SerializedName("question")
     var question: Question?,
 
-    var pictogrammes: List<Pictogramme>
+    var mots: List<Mot>
 
 ) : Serializable {
-    constructor(question: Question?, pictogrammes: List<Pictogramme>) : this(
+    constructor(question: Question?, mots: List<Mot>) : this(
         0,
         question,
-        pictogrammes
+        mots
     )
 }

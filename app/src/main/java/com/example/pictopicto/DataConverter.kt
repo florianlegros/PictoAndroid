@@ -8,16 +8,16 @@ import com.google.gson.reflect.TypeToken
 class DataConverter {
 
     @TypeConverter
-    fun fromPictogrammeLangList(value: List<Pictogramme>?): String {
+    fun fromPictogrammeLangList(value: List<Mot>?): String {
         val gson = Gson()
-        val type = object : TypeToken<List<Pictogramme>>() {}.type
+        val type = object : TypeToken<List<Mot>>() {}.type
         return gson.toJson(value, type) ?: ""
     }
 
     @TypeConverter
-    fun toPictogrammeLangList(value: String): List<Pictogramme> {
+    fun toPictogrammeLangList(value: String): List<Mot> {
         val gson = Gson()
-        val type = object : TypeToken<List<Pictogramme>>() {}.type
+        val type = object : TypeToken<List<Mot>>() {}.type
         return gson.fromJson(value, type) ?: ArrayList()
     }
 

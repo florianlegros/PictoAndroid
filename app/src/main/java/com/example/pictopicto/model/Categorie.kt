@@ -14,10 +14,10 @@ data class Categorie(
     @SerializedName("nom")
     var categorieNom: String,
 
-    @SerializedName("imgfile")
+    @SerializedName("pictoFile")
     var categorieImgfile: String,
 
     @TypeConverters(DataConverter::class)
     @SerializedName("pictogrammes")
-    var pictogrammes: List<Pictogramme> = ArrayList()
+    var mots: List<Mot> = ArrayList()
 ) : Serializable

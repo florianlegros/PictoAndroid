@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.view.DragEvent
-import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -34,8 +33,8 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var categorieAdapter: CategorieAdapter
     private lateinit var questionsAdapter: ArrayAdapter<Question>
 
-    private var pictogrammes = arrayListOf<Pictogramme>()
-    private var phrase = arrayListOf<Pictogramme>()
+    private var mots = arrayListOf<Mot>()
+    private var phrase = arrayListOf<Mot>()
     private var phraseCorect = ""
     private var categories = arrayListOf<Categorie>()
     private var questions = arrayListOf<Question>()
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var negatif = false
 
     private lateinit var categorieRepository: CategorieRepository
-    private lateinit var pictogrammeRepository: PictogrammeRepository
+    private lateinit var motRepository: MotRepository
     private lateinit var questionRepository: QuestionRepository
     private lateinit var phraseRepository: PhraseRepository
     private lateinit var tagRepository: TagRepository
@@ -65,7 +64,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         mTts.setSpeechRate(0.8f)
 
         categorieRepository = CategorieRepository.getInstance(application)!!
-        pictogrammeRepository = PictogrammeRepository.getInstance(application)!!
+        motRepository = MotRepository.getInstance(application)!!
         questionRepository = QuestionRepository.getInstance(application)!!
         phraseRepository = PhraseRepository.getInstance(application)!!
         tagRepository = TagRepository.getInstance(application)!!
@@ -85,10 +84,10 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 categorieAdapter.notifyDataSetChanged()
             }
         }
-        pictogrammeRepository.pictogrammesByCategorie.observe(this) {
+        motRepository.pictogrammesByCategorie.observe(this) {
             if (it.isEmpty().not()) {
-                pictogrammes.clear()
-                pictogrammes.addAll(it)
+                mots.clear()
+                mots.addAll(it)
                 pictoAdapter.notifyDataSetChanged()
             }
         }
@@ -103,12 +102,12 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
         CoroutineScope(Dispatchers.IO).launch {
             categorieRepository.updateDatabase(this@MainActivity)
-            pictogrammeRepository.updateDatabase(this@MainActivity)
+            motRepository.updateDatabase(this@MainActivity)
             questionRepository.updateDatabase(this@MainActivity)
         }
 
         phraseAdapter = PictoAdapter(phrase, mTts)
-        pictoAdapter = PictoAdapter(pictogrammes, mTts)
+        pictoAdapter = PictoAdapter(mots, mTts)
         phraseAdapter.clicklistener = true
 
 
@@ -136,7 +135,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                             //recup l'adapter du recyler et on ajoute l'image
                             val adapter: PictoAdapter =
                                 container.adapter as PictoAdapter
-                            adapter.addItem(item as Pictogramme)
+                            adapter.addItem(item as Mot)
 
                             //verif si ya deja une image en dessous
                             val intercept =
@@ -175,7 +174,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                             )
 
                             CoroutineScope(Dispatchers.IO).launch {
-                                pictogrammeRepository.getAllPictogrammeByCategorieId(categories[position].categorieId)
+                                motRepository.getAllPictogrammeByCategorieId(categories[position].categorieId)
                             }
                         }
 
@@ -287,7 +286,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                             val pictograms: ArrayList<HashMap<String, Int>> = ArrayList()
 
                             for (i in 0 until phrase.size) {
-                                val mot: Pictogramme = phrase[i]
+                                val mot: Mot = phrase[i]
                                 val pictogram: HashMap<String, Int> = HashMap()
                                 pictogram[mot.pictoNom] = resources.getIdentifier(
                                     mot.pictoImgfile.replace(".png", "").lowercase(),

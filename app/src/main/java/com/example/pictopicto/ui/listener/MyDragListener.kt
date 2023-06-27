@@ -3,7 +3,7 @@ package com.example.pictopicto.ui.listener
 import android.view.DragEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pictopicto.model.Pictogramme
+import com.example.pictopicto.model.Mot
 import com.example.pictopicto.ui.adapter.PictoAdapter
 
 //gere les evenments d'un drag and drop
@@ -30,7 +30,7 @@ class MyDragListener : View.OnDragListener {
                     //recup l'adapter du recyler et on ajoute l'image
                     val adapter: PictoAdapter =
                         container.adapter as PictoAdapter
-                    adapter.addItem(item as Pictogramme)
+                    adapter.addItem(item as Mot)
 
                     //verif si ya deja une image en dessous
                     val intercept =

@@ -96,7 +96,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="0dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
@@ -106,32 +106,35 @@
         android:paddingEnd="150dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toEndOf="@+id/recycler3"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler2"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="0dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintStart_toEndOf="@+id/recycler3">
 
     </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler3"
-        android:layout_width="60dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent=".1">
 
     </androidx.recyclerview.widget.RecyclerView>
 
