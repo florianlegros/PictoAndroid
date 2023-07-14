@@ -14,7 +14,7 @@ data class Mot(
     @SerializedName("nom")
     var pictoNom: String,
 
-    @SerializedName("pictoFile")
+    @SerializedName("imgfile")
     var pictoImgfile: String,
 
     @SerializedName("categorieId")

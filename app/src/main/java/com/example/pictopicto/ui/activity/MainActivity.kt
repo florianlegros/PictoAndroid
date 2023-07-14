@@ -214,8 +214,8 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
             motAmot.setOnClickListener {
                 if (phrase.isEmpty().not() && positionTts < phrase.size) {
-                    val mot = phrase[positionTts]
-                    speakOut(mot.pictoNom)
+                    val mot = phraseCorect.split(" ")[positionTts]
+                    speakOut(mot)
                     positionTts++
                 } else {
                     positionTts = 0
@@ -248,7 +248,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 corrector()
             }
             tempsPasse.setOnClickListener {
-                temps = "futur"
+                temps = "passe"
                 corrector()
             }
             phraseNormal.setOnClickListener {
@@ -258,7 +258,9 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
             delLast.setOnClickListener {
                 phrase.removeLast()
+                phraseAdapter.notifyDataSetChanged()
                 corrector()
+
             }
             graph.setOnClickListener {
                 var out = ""
@@ -323,19 +325,25 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     private fun corrector() {
-        var pronom = ""
+        var pronomPre: Mot? = null
+        var nomPre: Mot? = null
+        lateinit var adjectifPre: Mot
         phraseCorect = ""
         phrase
             .forEach {
+
                 var nom = it.pictoNom + " "
+                try {
                 with(it.tags) {
                     if (contains(Tag("irregulier"))) {
                         when {
                             contains(Tag("verbe"))
                             -> {
 
+
                                 when (temps) {
-                                    "present" -> phraseCorect += when (pronom) {
+
+                                    "present" -> phraseCorect += when (pronomPre?.pictoNom) {
                                         "je" -> it.irregulier!!.conjugaison[0].premiere_pers_sing
                                         "tu" -> it.irregulier!!.conjugaison[0].deuxieme_pers_sing
                                         "il" -> it.irregulier!!.conjugaison[0].troisieme_pers_sing
@@ -348,7 +356,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                                         "ont" -> it.irregulier!!.conjugaison[0].troisieme_pers_pluriel
                                         else -> nom
                                     }
-                                    "futur" -> phraseCorect += when (pronom) {
+                                    "futur" -> phraseCorect += when (pronomPre?.pictoNom) {
                                         "je" -> it.irregulier!!.conjugaison[1].premiere_pers_sing
                                         "tu" -> it.irregulier!!.conjugaison[1].deuxieme_pers_sing
                                         "il" -> it.irregulier!!.conjugaison[1].troisieme_pers_sing
@@ -361,7 +369,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                                         "ont" -> it.irregulier!!.conjugaison[1].troisieme_pers_pluriel
                                         else -> nom
                                     }
-                                    "passe" -> phraseCorect += when (pronom) {
+                                    "passe" -> phraseCorect += when (pronomPre?.pictoNom) {
                                         "je" -> it.irregulier!!.conjugaison[2].premiere_pers_sing
                                         "tu" -> it.irregulier!!.conjugaison[2].deuxieme_pers_sing
                                         "il" -> it.irregulier!!.conjugaison[2].troisieme_pers_sing
@@ -374,26 +382,57 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                                         "ont" -> it.irregulier!!.conjugaison[2].troisieme_pers_pluriel
                                         else -> nom
                                     }
+
                                 }
-                                if (phraseCorect.contains(" se ")){
-                                    phraseCorect = phraseCorect.replace(" se ", when (pronom) {
-                                        "je" -> " me "
-                                        "tu" -> " te "
-                                        "nous" -> " nous "
-                                        "vous" -> " vous "
-                                        else -> " se "
-                                    })
+
+                                if (phraseCorect.contains(" se ")) {
+                                    phraseCorect = phraseCorect.replace(
+                                        " se ", when (pronomPre?.pictoNom) {
+                                            "je" -> " me "
+                                            "tu" -> " te "
+                                            "nous" -> " nous "
+                                            "vous" -> " vous "
+                                            else -> " se "
+                                        }
+                                    )
+                                } else if (phraseCorect.contains(" s'")) {
+                                    phraseCorect = phraseCorect.replace(
+                                        " s'", when (pronomPre?.pictoNom) {
+                                            "je" -> " m'"
+                                            "tu" -> " t'"
+                                            "nous" -> " nous "
+                                            "vous" -> " vous "
+                                            else -> " s'"
+                                        }
+                                    )
                                 }
-                                else if (phraseCorect.contains(" s'")){
-                                    phraseCorect = phraseCorect.replace(" s'", when (pronom) {
-                                        "je" -> " m'"
-                                        "tu" -> " t'"
-                                        "nous" -> " nous "
-                                        "vous" -> " vous "
-                                        else -> " s'"
-                                    })
+                                phraseCorect =
+                                    phraseCorect.replaceFirst(
+                                        regex = Regex("[aeio] ([aeio])"),
+                                        replacement = "'$1"
+                                    )
+                                pronomPre = null
+                            }
+                            contains(Tag("nom"))
+                            -> {
+                                nomPre = it
+                                phraseCorect += if (pronomPre?.tags?.contains(Tag("pluriel")) == true) {
+                                    it.irregulier!!.pluriel
+                                } else {
+                                    nom
                                 }
-                                pronom = ""
+                            }
+                            contains(Tag("adjectif"))
+                            -> {
+                                adjectifPre = it
+                                phraseCorect += if (nomPre?.tags?.contains(Tag("feminin")) == true
+                                    || pronomPre?.tags?.contains(Tag("feminin")) == true
+                                ) {
+                                    it.irregulier!!.feminin
+                                } else {
+                                    nom
+                                }
+
                             }
                             else -> phraseCorect += nom
                         }
@@ -401,14 +440,28 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     } else {
                         when {
                             contains(Tag("pronom_ou_determinant")) -> {
-                                pronom = it.pictoNom
+                                pronomPre = it
                                 phraseCorect += nom
+                            }
+                            contains(Tag("adjectif"))
+                            -> {
+                                adjectifPre = it
+                                phraseCorect += if (nomPre?.tags?.contains(Tag("feminin")) == true
+                                    || pronomPre?.tags?.contains(Tag("feminin")) == true
+                                ) {
+                                    it.pictoNom + "e "
+                                } else {
+                                    nom
+                                }
+                                if (pronomPre?.tags?.contains(Tag("pluriel")) == true) {
+                                    phraseCorect += "s"
+                                }
                             }
                             contains(Tag("verbe")) -> {
 
                                 if (nom.contains("se")) {
                                     nom = nom.replace(
-                                        "se", when (pronom) {
+                                        "se", when (pronomPre?.pictoNom) {
                                             "je" -> "me"
                                             "tu" -> "te"
                                             "nous" -> "nous"
@@ -418,7 +471,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                                     )
                                 } else if (nom.contains("s'")) {
                                     nom = nom.replace(
-                                        "s'", when (pronom) {
+                                        "s'", when (pronomPre?.pictoNom) {
                                             "je" -> "m'"
                                             "tu" -> "t'"
                                             "nous" -> "nous "
@@ -428,40 +481,9 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                                     )
                                 }
 
-                                if (temps == "present") {
+                                if (temps == "futur") {
                                     if (contains(Tag("premier_groupe"))) {
-                                        phraseCorect += when (pronom) {
-                                            "je" -> nom.replaceFirst("er ", "e ")
-                                            "tu" -> nom.replaceFirst("er ", "es ")
-                                            "il" -> nom.replaceFirst("er ", "e ")
-                                            "elle" -> nom.replaceFirst("er ", "e ")
-                                            "on" -> nom.replaceFirst("er ", "e ")
-                                            "nous" -> nom.replaceFirst("er ", "ons ")
-                                            "vous" -> nom.replaceFirst("er ", "ez ")
-                                            "ils" -> nom.replaceFirst("er ", "ent ")
-                                            "elles" -> nom.replaceFirst("er ", "ent ")
-                                            "ont" -> nom.replaceFirst("er ", "ent ")
-                                            else -> nom
-                                        }
-                                    } else if (contains(Tag("deuxieme_groupe"))) {
-                                        phraseCorect += when (pronom) {
-                                            "je" -> nom.replaceFirst("ir ", "is ")
-                                            "tu" -> nom.replaceFirst("ir ", "is ")
-                                            "il" -> nom.replaceFirst("ir ", "it ")
-                                            "elle" -> nom.replaceFirst("ir ", "it ")
-                                            "on" -> nom.replaceFirst("ir ", "it ")
-                                            "nous" -> nom.replaceFirst("ir ", "issons ")
-                                            "vous" -> nom.replaceFirst("ir ", "issez ")
-                                            "ils" -> nom.replaceFirst("ir ", "issent ")
-                                            "elles" -> nom.replaceFirst("ir ", "issent ")
-                                            "ont" -> nom.replaceFirst("ir ", "issent ")
-                                            else -> nom
-                                        }
-                                    }
-
-                                } else if (temps == "futur") {
-                                    if (contains(Tag("premier_groupe"))) {
-                                        phraseCorect += when (pronom) {
+                                        phraseCorect += when (pronomPre?.pictoNom) {
                                             "je" -> nom.replaceFirst("er ", "erai ")
                                             "tu" -> nom.replaceFirst("er ", "eras ")
                                             "il" -> nom.replaceFirst("er ", "era ")
@@ -475,7 +497,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                                             else -> nom
                                         }
                                     } else if (contains(Tag("deuxieme_groupe"))) {
-                                        phraseCorect += when (pronom) {
+                                        phraseCorect += when (pronomPre?.pictoNom) {
                                             "je" -> nom.replaceFirst("ir ", "irai ")
                                             "tu" -> nom.replaceFirst("ir ", "iras ")
                                             "il" -> nom.replaceFirst("ir ", "ira ")
@@ -489,19 +511,91 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                                             else -> nom
                                         }
                                     }
+                                } else if (temps == "passe") {
+                                    if (contains(Tag("premier_groupe"))) {
+                                        phraseCorect += when (pronomPre?.pictoNom) {
+                                            "je" -> nom.replaceFirst("er ", "ai ")
+                                            "tu" -> nom.replaceFirst("er ", "as ")
+                                            "il" -> nom.replaceFirst("er ", "a ")
+                                            "elle" -> nom.replaceFirst("er ", "a ")
+                                            "on" -> nom.replaceFirst("er ", "a ")
+                                            "nous" -> nom.replaceFirst("er ", "âmes ")
+                                            "vous" -> nom.replaceFirst("er ", "âtes ")
+                                            "ils" -> nom.replaceFirst("er ", "èrent ")
+                                            "elles" -> nom.replaceFirst("er ", "èrent ")
+                                            "ont" -> nom.replaceFirst("er ", "èrent ")
+                                            else -> nom
+                                        }
+                                    } else if (contains(Tag("deuxieme_groupe"))) {
+                                        phraseCorect += when (pronomPre?.pictoNom) {
+                                            "je" -> nom.replaceFirst("ir ", "is ")
+                                            "tu" -> nom.replaceFirst("ir ", "is ")
+                                            "il" -> nom.replaceFirst("ir ", "it ")
+                                            "elle" -> nom.replaceFirst("ir ", "it ")
+                                            "on" -> nom.replaceFirst("ir ", "it ")
+                                            "nous" -> nom.replaceFirst("ir ", "îmes ")
+                                            "vous" -> nom.replaceFirst("ir ", "îtes ")
+                                            "ils" -> nom.replaceFirst("ir ", "irent ")
+                                            "elles" -> nom.replaceFirst("ir ", "irent ")
+                                            "ont" -> nom.replaceFirst("ir ", "irent ")
+                                            else -> nom
+                                        }
+                                    }
+                                } else {
+                                    if (contains(Tag("premier_groupe"))) {
+                                        phraseCorect += when (pronomPre?.pictoNom) {
+                                            "je" -> nom.replaceFirst("er ", "e ")
+                                            "tu" -> nom.replaceFirst("er ", "es ")
+                                            "il" -> nom.replaceFirst("er ", "e ")
+                                            "elle" -> nom.replaceFirst("er ", "e ")
+                                            "on" -> nom.replaceFirst("er ", "e ")
+                                            "nous" -> nom.replaceFirst("er ", "ons ")
+                                            "vous" -> nom.replaceFirst("er ", "ez ")
+                                            "ils" -> nom.replaceFirst("er ", "ent ")
+                                            "elles" -> nom.replaceFirst("er ", "ent ")
+                                            "ont" -> nom.replaceFirst("er ", "ent ")
+                                            else -> nom
+                                        }
+                                    } else if (contains(Tag("deuxieme_groupe"))) {
+                                        phraseCorect += when (pronomPre?.pictoNom) {
+                                            "je" -> nom.replaceFirst("ir ", "is ")
+                                            "tu" -> nom.replaceFirst("ir ", "is ")
+                                            "il" -> nom.replaceFirst("ir ", "it ")
+                                            "elle" -> nom.replaceFirst("ir ", "it ")
+                                            "on" -> nom.replaceFirst("ir ", "it ")
+                                            "nous" -> nom.replaceFirst("ir ", "issons ")
+                                            "vous" -> nom.replaceFirst("ir ", "issez ")
+                                            "ils" -> nom.replaceFirst("ir ", "issent ")
+                                            "elles" -> nom.replaceFirst("ir ", "issent ")
+                                            "ont" -> nom.replaceFirst("ir ", "issent ")
+                                            else -> nom
+                                        }
+                                    }
                                 }
 
-                                pronom = ""
+                                phraseCorect =
+                                    phraseCorect.replaceFirst(
+                                        regex = Regex("[aeio] ([aeio])"),
+                                        replacement = "'$1"
+                                    )
+                                pronomPre = null
+                            }
+                            contains(Tag("nom"))
+                            -> {
+                                nomPre = it
+                                phraseCorect += if (pronomPre?.tags?.contains(Tag("pluriel")) == true) {
+                                    it.pictoNom + "s "
+                                } else {
+                                    nom
+                                }
                             }
                             else -> phraseCorect += nom
                         }
                     }
+                } }catch (excpetion: java.lang.Exception){
+                    phraseCorect += nom
                 }
-                phraseCorect =
-                    phraseCorect.replaceFirst(
-                        regex = Regex("[aeio] ([aeiou])"),
-                        replacement = "'$1"
-                    )
+
 
 
                 binding.phraseText.text = phraseCorect

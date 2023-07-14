@@ -20,28 +20,28 @@ class MotRepository private constructor(context: Context) {
     var categorieId: Long = 17
 
     private val allPictogrammes: LiveData<List<Mot>>
-        get() = bdd.pictogrammeDao()!!.getAll()
+        get() = bdd.motDao()!!.getAll()
 
     suspend fun addAll(mots: List<Mot>) {
-        bdd.pictogrammeDao()?.insertAll(mots)
+        bdd.motDao()?.insertAll(mots)
     }
 
     fun getAll() {
-        bdd.pictogrammeDao()?.getAll()
+        bdd.motDao()?.getAll()
     }
 
     suspend fun getPictogrammeById(pictogrammeId: Long): Mot? {
-        return bdd.pictogrammeDao()?.getMotById(pictogrammeId)
+        return bdd.motDao()?.getMotById(pictogrammeId)
     }
 
     suspend fun getAllPictogrammeByCategorieId(categorieId: Long): List<Mot>? {
-        val temp = bdd.pictogrammeDao()?.getAllMotByCategorieId(categorieId)
+        val temp = bdd.motDao()?.getAllMotByCategorieId(categorieId)
         pictogrammesByCategorie.postValue(temp)
         return temp
     }
 
     suspend fun insertPictogramme(mot: Mot) {
-        bdd.pictogrammeDao()?.insertMot(mot)
+        bdd.motDao()?.insertMot(mot)
     }
 
     suspend fun updateDatabase(context: Context) {

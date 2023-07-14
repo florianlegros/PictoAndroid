@@ -17,7 +17,7 @@ import com.example.pictopicto.model.*
     DataConverter::class
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun pictogrammeDao(): MotDao?
+    abstract fun motDao(): MotDao?
     abstract fun categorieDao(): CategorieDao?
     abstract fun questionDao(): QuestionDao?
     abstract fun phraseDao(): PhraseDao?

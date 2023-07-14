@@ -89,7 +89,8 @@
             android:layout_height="40dp"
             android:layout_margin="5dp"
             android:background="@drawable/floppy_disk_solid"
-            android:backgroundTint="#FFC107" />
+            android:backgroundTint="#FFC107"
+            android:visibility="gone" />
 
     </LinearLayout>
 

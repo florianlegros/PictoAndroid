@@ -34,7 +34,6 @@ class PictoAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-
         with(holder.itemView) {
             //donne les image en fonction d'un string
             holder.imageView.setImageResource(
@@ -49,13 +48,10 @@ class PictoAdapter(
                 holder.itemView.setOnLongClickListener {
                     val intent = Intent()
                     intent.putExtra("item", item)
-
                     //on peut stocker des données dans un ClipData, ici on stock le nom de l'image
                     val data: ClipData = ClipData.newIntent("intent", intent)
-
                     //on creer une ombre c'est a dire une copie trasparent de l'image qui s'affiche pendant le drag
                     val myShadow = View.DragShadowBuilder(it)
-
                     //on lance la drag and drop
                     it.startDragAndDrop(
                         data,

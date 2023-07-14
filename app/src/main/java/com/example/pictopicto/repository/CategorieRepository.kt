@@ -14,24 +14,17 @@ import retrofit2.Response
 class CategorieRepository private constructor(context: Context) {
     var categories: LiveData<List<Categorie>>
     private val bdd: AppDatabase
-
     private val allCategories: LiveData<List<Categorie>>
         get() = bdd.categorieDao()!!.getAll()
 
-    suspend fun addAll(Categories: List<Categorie>) {
-        bdd.categorieDao()?.insertAll(Categories)
-    }
-
-    fun getAll(): LiveData<List<Categorie>>? {
-        return bdd.categorieDao()?.getAll()
-    }
-
-    suspend fun getCategorieById(CategorieId: Long): Categorie? {
-        return bdd.categorieDao()?.getCategorieById(CategorieId)
-    }
-
-    suspend fun insertCategorie(Categorie: Categorie) {
-        bdd.categorieDao()?.insertCategorie(Categorie)
+    companion object {
+        private var ourInstance: CategorieRepository? = null
+        fun getInstance(context: Context): CategorieRepository? {
+            if (ourInstance == null) {
+                ourInstance = CategorieRepository(context)
+            }
+            return ourInstance
+        }
     }
 
     suspend fun updateDatabase(context: Context) {
@@ -62,16 +55,24 @@ class CategorieRepository private constructor(context: Context) {
                 }
             })
     }
-
-    companion object {
-        private var ourInstance: CategorieRepository? = null
-        fun getInstance(context: Context): CategorieRepository? {
-            if (ourInstance == null) {
-                ourInstance = CategorieRepository(context)
-            }
-            return ourInstance
-        }
+    suspend fun addAll(Categories: List<Categorie>) {
+        bdd.categorieDao()?.insertAll(Categories)
     }
+
+    fun getAll(): LiveData<List<Categorie>>? {
+        return bdd.categorieDao()?.getAll()
+    }
+
+    suspend fun getCategorieById(CategorieId: Long): Categorie? {
+        return bdd.categorieDao()?.getCategorieById(CategorieId)
+    }
+
+    suspend fun insertCategorie(Categorie: Categorie) {
+        bdd.categorieDao()?.insertCategorie(Categorie)
+    }
+
+
+
 
     init {
         bdd = AppDatabase.getInstance(context)!!

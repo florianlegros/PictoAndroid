@@ -14,7 +14,7 @@ data class Categorie(
     @SerializedName("nom")
     var categorieNom: String,
 
-    @SerializedName("pictoFile")
+    @SerializedName("imgfile")
     var categorieImgfile: String,
 
     @TypeConverters(DataConverter::class)
