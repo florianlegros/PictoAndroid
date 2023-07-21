@@ -17,7 +17,7 @@ interface ApiService {
     @POST("phrases")
     fun addPhrase(@Body request: EmbeddedRequest<Phrase>): Call<EmbeddedResponse<Phrase>>
 
-    @GET("pictogrammes/all")
+    @GET("mots/all")
     fun getMots(): Call<List<Mot>>
 
     @GET("categories/{id}/mots")

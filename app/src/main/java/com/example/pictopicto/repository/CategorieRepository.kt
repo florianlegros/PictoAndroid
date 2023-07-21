@@ -36,11 +36,9 @@ class CategorieRepository private constructor(context: Context) {
                     call: Call<List<Categorie>>,
                     t: Throwable
                 ) {
-                    // Error fetching
                     println("erreur fetching")
                     println(t.printStackTrace())
                 }
-
                 override fun onResponse(
                     call: Call<List<Categorie>>,
                     response: Response<List<Categorie>>

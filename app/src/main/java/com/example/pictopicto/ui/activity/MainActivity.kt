@@ -91,7 +91,6 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 pictoAdapter.notifyDataSetChanged()
             }
         }
-
         questionRepository.questions.observe(this) {
             if (it.isEmpty().not()) {
                 questions.clear()
@@ -327,11 +326,10 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private fun corrector() {
         var pronomPre: Mot? = null
         var nomPre: Mot? = null
-        lateinit var adjectifPre: Mot
+
         phraseCorect = ""
         phrase
             .forEach {
-
                 var nom = it.pictoNom + " "
                 try {
                 with(it.tags) {
@@ -339,10 +337,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         when {
                             contains(Tag("verbe"))
                             -> {
-
-
                                 when (temps) {
-
                                     "present" -> phraseCorect += when (pronomPre?.pictoNom) {
                                         "je" -> it.irregulier!!.conjugaison[0].premiere_pers_sing
                                         "tu" -> it.irregulier!!.conjugaison[0].deuxieme_pers_sing
@@ -382,7 +377,6 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                                         "ont" -> it.irregulier!!.conjugaison[2].troisieme_pers_pluriel
                                         else -> nom
                                     }
-
                                 }
 
                                 if (phraseCorect.contains(" se ")) {
@@ -424,7 +418,6 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                             }
                             contains(Tag("adjectif"))
                             -> {
-                                adjectifPre = it
                                 phraseCorect += if (nomPre?.tags?.contains(Tag("feminin")) == true
                                     || pronomPre?.tags?.contains(Tag("feminin")) == true
                                 ) {
@@ -445,7 +438,6 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                             }
                             contains(Tag("adjectif"))
                             -> {
-                                adjectifPre = it
                                 phraseCorect += if (nomPre?.tags?.contains(Tag("feminin")) == true
                                     || pronomPre?.tags?.contains(Tag("feminin")) == true
                                 ) {

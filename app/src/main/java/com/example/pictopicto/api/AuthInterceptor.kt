@@ -10,12 +10,10 @@ class AuthInterceptor(context: Context) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val requestBuilder = chain.request().newBuilder()
-
         // If token has been saved, add it to the request
         sessionManager.fetchAuthToken()?.let {
             requestBuilder.addHeader("Cookie", it.split(";")[0])
         }
-
         return chain.proceed(requestBuilder.build())
     }
 }
